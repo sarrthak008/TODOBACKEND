@@ -5,7 +5,7 @@ const addtask = async (req, res) => {
     try {
 
         //getting the user email to add data in database...
-        const email = req.params.email
+        const {email} = req.params
         console.log(email)
         const getUser = await user.findOne({ email });
 
@@ -44,4 +44,16 @@ const addtask = async (req, res) => {
 
 }
 
-export { addtask }
+
+//getting task usssing emai id....
+const gettask = async (req,res)=>{
+  const {email} = req.params;
+  const data = await user.findOne({ email }).populate('tasks','-_id  -__v');
+  res.json({
+    message:'data fetched successfully',
+    data:data.tasks
+  })
+  
+}
+
+export { addtask ,gettask}
