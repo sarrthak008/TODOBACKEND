@@ -14,7 +14,10 @@ import router from "./routers/auth.js";
 
 //midleware.
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
+     allowedHeaders: ['Content-Type'], // Allowed headers
+}))
 app.use('/api/auth',router);
 
 app.use('/health',(req,res)=>{
