@@ -11,14 +11,16 @@ const PORT = process.env.PORT || 3000;
 //create functions routes data
 import connectDB from "./config/connect.js";
 import router from "./routers/auth.js";
+import taskRouter from "./routers/task.js";
 
 //midleware.
 app.use(express.json())
 app.use(cors({
-     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
-     allowedHeaders: ['Content-Type'], // Allowed headers
+     methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+     allowedHeaders: ['Content-Type'], 
 }))
 app.use('/api/auth',router);
+app.use('/api/task',taskRouter)
 
 app.use('/health',(req,res)=>{
     res.send('server is healthy');

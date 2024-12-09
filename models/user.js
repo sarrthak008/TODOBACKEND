@@ -1,4 +1,4 @@
-import mongoose,{model, Schema} from "mongoose";
+import mongoose,{model, Schema, SchemaTypeOptions} from "mongoose";
 
 const userSChma = Schema({
      name:{
@@ -13,6 +13,13 @@ const userSChma = Schema({
      password:{
       type:String,
       required:true
+     },
+     tasks:{
+       type:[{
+          type:Schema.Types.ObjectId,
+          ref:'Task'
+       }],
+       default:[]
      },
      role:{
         type:String,

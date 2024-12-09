@@ -2,6 +2,9 @@ import user from "../models/user.js";
 import bcrypt from "bcrypt"
 import JWT from "jsonwebtoken"
 
+
+///REGSITER USER HERE
+
 const register = async (req, res) => {
     try {
 
@@ -27,7 +30,7 @@ const register = async (req, res) => {
             password: hashPass
         })
 
-        await newUser.save()
+        await newUser.save()    
 
         if (newUser) {
             res.json({
@@ -41,6 +44,7 @@ const register = async (req, res) => {
             }).status(400)
         }
 
+
     } catch (error) {
         // console.log(error)
         return res.json({
@@ -49,6 +53,11 @@ const register = async (req, res) => {
         }).status(404)
     }
 }
+
+
+//LOGIN USER HERE
+
+
 
 const login = async (req, res) => {
     try {
@@ -80,19 +89,17 @@ const login = async (req, res) => {
         }, process.env.JWT_SERECT_TOKEN, { expiresIn: '1y' }
         )
 
-
         res.json({
             success:true,
             message:"login successfully.",
             token:accessToken
-        })
+        }).status(200)
 
     } catch (error) {
         //console.log(error)
         return res.json({
             message: "some thing went wrong",
             success: false,
-
         }).status(404)
     }
 }
