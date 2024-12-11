@@ -9,7 +9,7 @@ const taskSchma = Schema({
       type: String,
       required: true
    },
-   Category:{
+   category:{
       type:String,
       required:true
    },

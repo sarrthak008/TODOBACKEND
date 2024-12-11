@@ -85,6 +85,7 @@ const login = async (req, res) => {
         const accessToken = JWT.sign({
             userID: getUser._id,
             username: getUser.name,
+            email:getUser.email,
             role: getUser.role
         }, process.env.JWT_SERECT_TOKEN, { expiresIn: '1y' }
         )

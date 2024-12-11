@@ -2,7 +2,7 @@ import { Router } from "express";
 const taskRouter = Router();
 import { addtask ,gettask} from "../contollers/taskControl.js";
 
-taskRouter.post('/:email/add', addtask);
-taskRouter.get('/:email/gettask',gettask)
+taskRouter.post('/addtask', addtask);
+taskRouter.get('/gettask',gettask)
 
 export default taskRouter;

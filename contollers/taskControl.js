@@ -1,12 +1,14 @@
 import Task from "../models/task.js"
 import user from "../models/user.js"
+import JWT from "jsonwebtoken"
 
 const addtask = async (req, res) => {
     try {
 
         //getting the user email to add data in database...
-        const {email} = req.params
-        console.log(email)
+        const {token} = req.body;
+        const {email} = JWT.verify(token,process.env.JWT_SERECT_TOKEN)
+      
         const getUser = await user.findOne({ email });
 
         if (!getUser) {
@@ -16,11 +18,11 @@ const addtask = async (req, res) => {
             }).status(400)
         }
 
-        const { title, description, completeBefore, isComplete } = req.body
+        const { title, description, category, isComplete } = req.body
         const newTask = new Task({
             title,
             description,
-            completeBefore,
+            category,
             isComplete
         })
         await newTask.save()
@@ -45,9 +47,14 @@ const addtask = async (req, res) => {
 }
 
 
-//getting task usssing emai id....
+//getting task usssing JWT id....
 const gettask = async (req,res)=>{
-  const {email} = req.params;
+
+
+  const {token} = req.body;
+  const {email} = JWT.verify(token,process.env.JWT_SERECT_TOKEN)
+
+ 
   const data = await user.findOne({ email }).populate('tasks','-_id  -__v');
   res.json({
     message:'data fetched successfully',
