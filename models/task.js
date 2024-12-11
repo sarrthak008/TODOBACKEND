@@ -9,9 +9,9 @@ const taskSchma = Schema({
       type: String,
       required: true
    },
-   completeBefore: {
-      type: Date,
-      required: true
+   Category:{
+      type:String,
+      required:true
    },
    isComplete: {
       type: Boolean,
