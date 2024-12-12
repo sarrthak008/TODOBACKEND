@@ -52,7 +52,8 @@ const addtask = async (req, res) => {
 const gettask = async (req, res) => {
 
     try {
-        const { token } = req.body;
+        const { token } = req.query;
+
         if (!token) {
             return res.json({
                 message: 'token not found',
