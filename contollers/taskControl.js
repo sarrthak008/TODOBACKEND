@@ -54,7 +54,7 @@ const gettask = async (req,res)=>{
     try {
         const {token} = req.body;
         if(!token){
-            res.json({
+           return  res.json({
                 message:'something went wrong ,please try later',
                 success: false,
             }).status(400)
