@@ -6,9 +6,9 @@ const addtask = async (req, res) => {
     try {
 
         //getting the user email to add data in database...
-        const {token} = req.body;
-        const {email} = JWT.verify(token,process.env.JWT_SERECT_TOKEN)
-      
+        const { token } = req.body;
+        const { email } = JWT.verify(token, process.env.JWT_SERECT_TOKEN)
+
         const getUser = await user.findOne({ email });
 
         if (!getUser) {
@@ -19,7 +19,7 @@ const addtask = async (req, res) => {
         }
 
         const { title, description, category, isComplete } = req.body
-        
+
         const newTask = new Task({
             title,
             description,
@@ -39,7 +39,7 @@ const addtask = async (req, res) => {
 
     } catch (error) {
         res.json({
-            message:error.message,
+            message: error.message,
             success: false,
         }).status(400)
     }
@@ -49,28 +49,28 @@ const addtask = async (req, res) => {
 
 
 //getting task usssing JWT id....
-const gettask = async (req,res)=>{
-  
+const gettask = async (req, res) => {
+
     try {
-        const {token} = req.body;
-        if(!token){
-           return  res.json({
-                message:'something went wrong ,please try later',
+        const { token } = req.body;
+        if (!token) {
+            return res.json({
+                message: 'token not found',
                 success: false,
             }).status(400)
         }
-        const {email} = JWT.verify(token,process.env.JWT_SERECT_TOKEN) 
-        const data = await user.findOne({ email }).populate('tasks','-_id  -__v');
-         res.json({
-           message:'data fetched successfully',
-           data:data.tasks
-         })
+        const { email } = JWT.verify(token, process.env.JWT_SERECT_TOKEN)
+        const data = await user.findOne({ email }).populate('tasks', '-_id  -__v');
+        res.json({
+            message: 'data fetched successfully',
+            data: data.tasks
+        })
     } catch (error) {
         res.json({
-            message:error.message,
+            message: error.message,
             success: false,
         }).status(400)
     }
 }
 
-export { addtask ,gettask}
+export { addtask, gettask }
