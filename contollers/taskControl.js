@@ -61,7 +61,7 @@ const gettask = async (req, res) => {
             }).status(400)
         }
         const { email } = JWT.verify(token, process.env.JWT_SERECT_TOKEN)
-        const data = await user.findOne({ email }).populate('tasks', '-_id  -__v');
+        const data = await user.findOne({ email }).populate('tasks',  '-__v');
         res.json({
             message: 'data fetched successfully',
             data: data.tasks,
