@@ -38,15 +38,11 @@ const addtask = async (req, res) => {
 
 
     } catch (error) {
-        
         res.json({
             message:error.message,
             success: false,
-        }).status(200)
+        }).status(400)
     }
-
-
-
 
 
 }
@@ -54,18 +50,27 @@ const addtask = async (req, res) => {
 
 //getting task usssing JWT id....
 const gettask = async (req,res)=>{
-
-
-  const {token} = req.body;
-  const {email} = JWT.verify(token,process.env.JWT_SERECT_TOKEN)
-
- 
-  const data = await user.findOne({ email }).populate('tasks','-_id  -__v');
-  res.json({
-    message:'data fetched successfully',
-    data:data.tasks
-  })
   
+    try {
+        const {token} = req.body;
+        if(!token){
+            res.json({
+                message:'something went wrong ,please try later',
+                success: false,
+            }).status(400)
+        }
+        const {email} = JWT.verify(token,process.env.JWT_SERECT_TOKEN) 
+        const data = await user.findOne({ email }).populate('tasks','-_id  -__v');
+         res.json({
+           message:'data fetched successfully',
+           data:data.tasks
+         })
+    } catch (error) {
+        res.json({
+            message:error.message,
+            success: false,
+        }).status(400)
+    }
 }
 
 export { addtask ,gettask}
