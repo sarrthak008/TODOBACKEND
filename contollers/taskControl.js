@@ -64,7 +64,8 @@ const gettask = async (req, res) => {
         const data = await user.findOne({ email }).populate('tasks', '-_id  -__v');
         res.json({
             message: 'data fetched successfully',
-            data: data.tasks
+            data: data.tasks,
+            success:true
         })
     } catch (error) {
         res.json({
