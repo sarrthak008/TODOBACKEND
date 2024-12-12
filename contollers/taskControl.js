@@ -19,6 +19,7 @@ const addtask = async (req, res) => {
         }
 
         const { title, description, category, isComplete } = req.body
+        
         const newTask = new Task({
             title,
             description,
@@ -37,7 +38,11 @@ const addtask = async (req, res) => {
 
 
     } catch (error) {
-        console.log(error)
+        
+        res.json({
+            message:error.message,
+            success: false,
+        }).status(200)
     }
 
 
