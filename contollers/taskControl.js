@@ -61,11 +61,11 @@ const gettask = async (req, res) => {
             }).status(400)
         }
         const { email } = JWT.verify(token, process.env.JWT_SERECT_TOKEN)
-        const data = await user.findOne({ email }).populate('tasks',  '-__v');
+        const data = await user.findOne({ email }).populate('tasks', '-__v');
         res.json({
             message: 'data fetched successfully',
             data: data.tasks,
-            success:true
+            success: true
         })
     } catch (error) {
         res.json({
@@ -75,4 +75,36 @@ const gettask = async (req, res) => {
     }
 }
 
-export { addtask, gettask }
+
+const deleteTask = async (req, res) => {
+    const { token } = req.body
+    const { email } = JWT.verify(token, process.env.JWT_SERECT_TOKEN);
+    if (!email) {
+        return res.json({
+            message: 'something went wrong',
+            success: false
+        }).status(401)
+    }
+    const { _id } = req.body
+    if (!_id) {
+        return res.json({
+            message: 'something went wrong',
+            success: false
+        }).status(401)
+    }
+    const deletedTask = await Task.findOneAndDelete({ _id })
+    if (!deletedTask) {
+        return res.json({
+            message: 'task not found..',
+            success: false
+        }).status(401)
+    } else {
+        res.json({
+            message: 'task delete successfully.',
+            success: true,
+            data: deleteTask
+        })
+    }
+}
+
+export { addtask, gettask, deleteTask }

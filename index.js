@@ -22,7 +22,9 @@ app.use(cors({
 app.use('/api/auth',router);
 app.use('/api/task',taskRouter)
 
-app.use('/health',(req,res)=>{
+
+
+app.get('/health',(req,res)=>{
     res.send('server is healthy');
 })
 

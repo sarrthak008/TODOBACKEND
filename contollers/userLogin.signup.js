@@ -89,7 +89,7 @@ const login = async (req, res) => {
             role: getUser.role
         }, process.env.JWT_SERECT_TOKEN, { expiresIn: '1y' }
         )
-
+        
         res.json({
             success:true,
             message:"login successfully.",
