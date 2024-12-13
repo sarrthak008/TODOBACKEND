@@ -77,33 +77,40 @@ const gettask = async (req, res) => {
 
 
 const deleteTask = async (req, res) => {
-    const { token } = req.body
-    const { email } = JWT.verify(token, process.env.JWT_SERECT_TOKEN);
-    if (!email) {
-        return res.json({
-            message: 'something went wrong',
-            success: false
-        }).status(401)
-    }
-    const { _id } = req.body
-    if (!_id) {
-        return res.json({
-            message: 'something went wrong',
-            success: false
-        }).status(401)
-    }
-    const deletedTask = await Task.findOneAndDelete({ _id })
-    if (!deletedTask) {
-        return res.json({
-            message: 'task not found..',
-            success: false
-        }).status(401)
-    } else {
+    try {
+        const { token } = req.body
+        const { email } = JWT.verify(token, process.env.JWT_SERECT_TOKEN);
+        if (!email) {
+            return res.json({
+                message: 'something went wrong',
+                success: false
+            }).status(401)
+        }
+        const { _id } = req.body
+        if (!_id) {
+            return res.json({
+                message: 'something went wrong',
+                success: false
+            }).status(401)
+        }
+        const deletedTask = await Task.findOneAndDelete({ _id })
+        if (!deletedTask) {
+            return res.json({
+                message: 'task not found..',
+                success: false
+            }).status(401)
+        } else {
+            res.json({
+                message: 'task delete successfully.',
+                success: true,
+                data: deleteTask
+            }).status(200)
+        }
+    } catch (error) {
         res.json({
-            message: 'task delete successfully.',
-            success: true,
-            data: deleteTask
-        })
+            message: error.message,
+            success: false
+        }).status(401)
     }
 }
 
