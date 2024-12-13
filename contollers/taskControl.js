@@ -79,8 +79,8 @@ const gettask = async (req, res) => {
 const deleteTask = async (req, res) => {
     try {
         const { token } = req.body
-        const { email } = JWT.verify(token, process.env.JWT_SERECT_TOKEN);
-        if (!email) {
+        const decode = JWT.verify(token, process.env.JWT_SERECT_TOKEN);
+        if (!decode) {
             return res.json({
                 message: 'something went wrong',
                 success: false
@@ -98,14 +98,15 @@ const deleteTask = async (req, res) => {
             return res.json({
                 message: 'task not found..',
                 success: false
-            }).status(401)
-        } else {
-            res.json({
-                message: 'task delete successfully.',
-                success: true,
-                data: deleteTask
-            }).status(200)
+            }).status(404)
         }
+        res.json({
+            message: 'task delete successfully.',
+            success: true,
+            data: deletedTask
+        }).status(200)
+
+
     } catch (error) {
         res.json({
             message: error.message,
